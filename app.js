@@ -6,16 +6,19 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methods = require('./methods');
+const hbs = require('hbs');
 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var brandsRouter = require('./routes/brands');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+hbs.registerPartials(__dirname+'/views/partials', function(err){});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger('dev'));
@@ -35,6 +38,7 @@ app.use((req, res, next) => {
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/brand', brandsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
